@@ -20,13 +20,19 @@ function Home() {
     var titulo = 'do dia';
 
     async function loadCobrancas(){
-        await api.get(`/cobranca/${filterActived}`)
-        .then(response => {
-            console.log(response.data);
-            setCobrancas(response.data);
+        // await api.get(`/cobranca/${filterActived}`)
+        // .then(response => {
+        //     console.log(response.data);
+        //     setCobrancas(response.data);
             
-            console.log("cobrancas")
-            console.log(cobrancas);
+        //     console.log("cobrancas")
+        //     console.log(cobrancas);
+        // })
+
+        await api.get(`/sales`).then(response => {
+            console.log(response.data)
+            setCobrancas(response.data);
+
         })
     };
 

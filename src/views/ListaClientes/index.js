@@ -22,8 +22,8 @@ function Home() {
     async function loadClientes(){
         await api.get(`/clients`)
         .then(response => {
-            console.log(response.data.docs);
-            setClientes(response.data.docs);
+            console.log(response.data);
+            setClientes(response.data);
             
             console.log("clientes")
             console.log(clientes);

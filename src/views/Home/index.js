@@ -54,13 +54,12 @@ function Home() {
     useEffect(() => {
         //lateVerify();
         loadCobrancas();
-        lateVerify();
+        // lateVerify();
     }, [filterActived]);
 
     return (
         <S.Container>
-            <Header lateCount = {lateCount} clickNotification={Notification}/>
-        
+            <Header lateCount={lateCount} clickNotification={Notification}/>
             <S.FilterArea>
                 <button type="button" onClick={() => setFilterActived("all") }>
                     <FilterCard title="Todos" actived={filterActived == 'all'} />
@@ -78,22 +77,18 @@ function Home() {
                     <FilterCard title="Ano" actived={filterActived == 'year'} />
                 </button>      
             </S.FilterArea>
-
             <S.Title>
                 <h3>Cobranças {filterTraducao[filterActived]}</h3>
             </S.Title>
-
             <S.Content>
                 {
                     cobrancas.map(v => (
                         <Link to={`/sale/${v._id}`}>
                             <CobrancaCard dadosVenda={v}/>
                         </Link>
-                            
                     ))
                 }         
             </S.Content>
-            
             <Footer />
         </S.Container>    
     );

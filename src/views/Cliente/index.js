@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import * as S from './style';
 
 //importando o backend
@@ -9,6 +10,8 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 function Venda({match}) {
+    const params = useParams();
+
     const [lateCount, setLateCount] = useState();
     const [nomeCliente, setNomeCliente] = useState();
     const [cpfCliente, setCpfCliente] = useState();
@@ -18,7 +21,7 @@ function Venda({match}) {
     const [numeroCliente, setNumeroCliente] =useState();
 
     async function loadClientDetails(){
-        await api.get(`/client/${match.params.id}`)
+        await api.get(`/client/${params.id}`)
         .then(response => {
             console.log(response.data)
             setNomeCliente(response.data.name)
@@ -73,13 +76,13 @@ function Venda({match}) {
 
     useEffect(() => {
         lateVerify();
-        loadClientDetails();
+        params?.id && loadClientDetails();
     }, []);
 
     return (
         <S.Container>
             <Header lateCount = {lateCount} clickNotification={Notification}/>
-            {match.params.id 
+            {params?.id 
                 ? <h2>Detalhes do Cliente</h2> 
                 : <h2>Cadastro de Cliente</h2>
             }

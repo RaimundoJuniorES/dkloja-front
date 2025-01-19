@@ -28,7 +28,7 @@ function Venda({match}) {
     async function getClientes(){
         await api.get(`/clients`)
         .then(response => {
-            const options = response.data.docs.map((c) => {
+            const options = response.data.map((c) => {
                 return {value: c, label: `${c.name} - ${c.cpf}` }
             })
             setClientes(options)          
@@ -57,18 +57,17 @@ function Venda({match}) {
     }
 
     async function Save(){
-
         const body = {
-            idClient: cliente._id,
-            name: cliente.name,
+            clientId: cliente._id,
+            clientName: cliente.name,
             type: type,
             value: value,
-            remains: value,
+            amountPaid: 0,
             description: descricao,
             dataCobranca: `${data}T${hora}:00.000Z`
         }
 
-        if(!body.idClient || !body.name || !body.type || !body.value || !body.remains || !body.description || !data || !hora){
+        if(!body.clientId || !body.clientName || !body.type || !body.value || !body.description || !data || !hora){
             showAlert('Preencha todos os campos!')
         }else{
             console.log(body)
@@ -95,7 +94,7 @@ function Venda({match}) {
     useEffect(() => {
         getClientes();
         lateVerify();
-        loadSaleDetails();
+        match?.params?.id && loadSaleDetails();
     }, []);
 
     const customStyles = {
@@ -123,7 +122,7 @@ function Venda({match}) {
     return (
         <S.Container>
             <Header lateCount = {lateCount} clickNotification={Notification}/>
-            {match.params.id 
+            {match?.params?.id 
                 ? <h2>Detalhes da Venda</h2> 
                 : <h2>Cadastro de Vendas</h2>
             }
@@ -142,7 +141,7 @@ function Venda({match}) {
                 
                 <S.Input>
                     <label for="cliente">Cliente:</label>
-                    {match.params.id 
+                    {match?.params?.id 
                         ? <input id="cliente" options={clientes} onChange={e => setCliente(e.value)} styles={customStyles} placeholder="Nome do Cliente" value={nomeCliente}></input> 
                         : <Select id="cliente" options={clientes} onChange={e => setCliente(e.value)} styles={customStyles} placeholder="Nome do Cliente" value={nomeCliente}></Select>
                     }
@@ -171,7 +170,7 @@ function Venda({match}) {
 
                 </S.InputData>
 
-                {match.params.id && 
+                {match?.params?.id && 
                     <S.Options>
                         <div>
                         <input type="checkbox"  checked={done} onChange={() => setDone(!done)}/>              

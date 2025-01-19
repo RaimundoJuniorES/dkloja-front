@@ -14,9 +14,9 @@ function Header({lateCount, clickNotification}) {
             <S.RightSide>
                 <Link to="/sale">VENDER</Link>
                 <span className="dividir" />
-                <div class="dropdown">
-                    <button class="dropbtn">CLIENTE</button>
-                    <div class="dropdown-content">
+                <div className="dropdown">
+                    <button className="dropbtn">CLIENTE</button>
+                    <div className="dropdown-content">
                         <Link to="/cliente">CADASTRAR CLIENTE</Link>
                         <Link to="/listaClientes">LISTA DE CLIENTES</Link>
                     </div>

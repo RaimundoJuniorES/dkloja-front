@@ -37,13 +37,6 @@ function Venda() {
                     createdAt: format(new Date(response.data.createdAt), 'dd/MM/yyyy'),
                     dataCobranca: format(new Date(response.data.dataCobranca), 'dd/MM/yyyy')
                 });
-                // setType(response.data.type)
-                // setNomeCliente(response.data.name)
-                // setValue(response.data.value)
-                // setDescricao(response.data.description)
-                // setData(format(new Date(response.data.createdAt), 'yyyy-mm-dd'))
-                // console.log('data', data)
-                // setHora(format(new Date(response.data.createdAt), 'HH:mm'))
             })
     }
 
@@ -64,7 +57,8 @@ function Venda() {
             await api.post(`/payment`, body)
                 .then(async ({data: { msg } }) => {
                     alert(msg);
-                    await loadPaymentList()
+                    await loadSaleDetails();
+                    await loadPaymentList();
                 })
         } else {
             alert('Informe um valor valido!')
@@ -113,11 +107,14 @@ function Venda() {
                         <span>Data da Compra: {sale.createdAt}</span><br />
                         <span>Data da Cobrança: {sale.dataCobranca}</span><br />
                         <span>Total Pago: {sale.amountPaid}</span><br />
-                        <span>Valor em Débito: {sale.value - sale.amountPaid}</span>
+                        <span>Valor em Débito: {Number(sale.value) - Number(sale.amountPaid)}</span>
                     </div>
-                    <div>
-                        <input type="number" onChange={(e) => setPaymentValue(e.target.value)}></input><button onClick={() => savePayment()}>Realizar pagamento</button>
-                    </div>
+                    { (Number(sale.value) - Number(sale.amountPaid) !== 0) &&
+                        (<div>
+                            <input type="number" onChange={(e) => setPaymentValue(e.target.value)}></input><button onClick={() => savePayment()}>Realizar pagamento</button>
+                        </div>)
+                    }
+                    
                 </S.SaleDetail>
             </div>
             <div className="paymentTable">
